@@ -26,7 +26,6 @@ function DateCounter() {
   const [state, dispatch] = useReducer(reduce, initialValues);
   const { count, step } = state;
 
-  // This mutates the date object.
   const date = new Date("june 21 2027");
   date.setDate(date.getDate() + count);
 
