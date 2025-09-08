@@ -7,6 +7,7 @@ import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
+import FinshScreen from "./FinshScreen";
 
 const initialState = {
   questions: [],
@@ -15,6 +16,7 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
+  highScore: 0,
 };
 
 function reduce(state, action) {
@@ -37,16 +39,21 @@ function reduce(state, action) {
       };
     case "nextQuestion":
       return { ...state, index: state.index + 1, answer: null };
+    case "finsh":
+      return {
+        ...state,
+        status: "finsh",
+        highScore:
+          state.highScore < state.points ? state.points : state.highScore,
+      };
     default:
       throw new Error("Action is unknown");
   }
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
-    reduce,
-    initialState
-  );
+  const [{ questions, status, index, answer, points, highScore }, dispatch] =
+    useReducer(reduce, initialState);
 
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce(
@@ -90,8 +97,20 @@ export default function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton dispatch={dispatch} answer={answer} />
+            <NextButton
+              dispatch={dispatch}
+              answer={answer}
+              index={index}
+              numQuestions={numQuestions}
+            />
           </>
+        )}
+        {status === "finsh" && (
+          <FinshScreen
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highScore={highScore}
+          />
         )}
       </Main>
     </div>
