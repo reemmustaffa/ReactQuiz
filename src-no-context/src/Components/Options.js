@@ -1,6 +1,4 @@
-import { useQuiz } from "./QuizContext";
-function Options({ question }) {
-  const { dispatch, answer } = useQuiz();
+function Options({ question, dispatch, answer }) {
   // دا عشان اتأكد لو في اجابه اخليه معتش يخار تاني ويغير فيها وكمان عشان اول لما افتح ميحطتش الكلاسس ع طول علي الاختيارات
   const handleAnswer = answer !== null;
   // classname answer :عشان اخليها تبقي داخله لجوا الاجابه اللي هخترها سواء صح او غلط
